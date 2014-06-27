@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "PositionRefresh";
+}
+
+<h2>PositionRefresh</h2>
+
+<body>
+    <div>
+        @Html.DropDownList("ddlTournaments", (IEnumerable<SelectListItem>)ViewBag.Tournaments, new { id = "ddlTournament", name = "ddlTournament" })
+        @*<select id="ddlTournament" name="ddlTournament">
+            </select>*@
+    </div>
+    <div id="results">
+    </div>
+    <table id="tbDetails">
+        @if (Model != null)
+        {
+            <tbody>
+                @foreach (var player in Model)
+                {
+                    <tr>
+                        <td>@player.LastName</td>
+                        <td>@player.FirstName</td>
+                        <td>@player.Position</td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+</body>
+
+<script type="text/javascript">
+
+    //function PopulateTournamentDropdown() {
+
+    //    $.ajax({
+    //        url: '/Leaderboard/PopulateTournamentDropDownList',
+    //        type: 'GET',
+    //        dataType: 'json',
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (data) {
+    //            var ddlTournament = $("#ddlTournament");
+    //            ddlTournament.empty();
+    //            $.each(data, function (i, tournament) {
+    //                ddlTournament.append('<option value="' + tournament.Id + '">' + tournament.Name + '</option>');
+    //            });
+    //        },
+    //        error: function () {
+    //            alert('Failed to retrieve tournament.');
+    //        }
+    //    });
+    //}
+
+    function SendTournamentId() {
+        var data = JSON.stringify({ id: $("#ddlTournament option:selected").val() });
+        $.ajax({
+
+            url: '/Leaderboard/PositionRefresh',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                //return JSON.stringify($("#ddlTournament option:selected").val());
+                $("#ddlTournament option:selected").val(result.d.id);
+            }
+        });
+    }
+
+    $(function () {
+        //$('#ddlTournament').change(PopulateTournamentDropdown);
+        $('#ddlTournament').change(SendTournamentId);
+        $("#ddlTournament option:selected").val();
+        //PopulateTournamentDropdown();
+    });
+
+</script>
+

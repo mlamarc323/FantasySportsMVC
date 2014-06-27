@@ -1,0 +1,102 @@
+﻿@model IEnumerable<FantasySportsMVC.Models.PlayerDetails>
+
+@{
+    ViewBag.Title = "PositionWithScores";
+}
+
+<h2>Position With Scores</h2>
+<br/>
+<br />
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div>
+            @Html.DropDownList("ddlTournaments", (IEnumerable<SelectListItem>)ViewBag.Tournaments, new { id = "ddlTournament", name = "ddlTournament" })
+        </div>
+        <div>
+            <input type="submit" id="btnGetData" value="Hit it!" />
+        </div>
+        <br />
+        <br/>
+        <table id="tbDetails">
+            @if (Model != null)
+            {
+                <tr></tr>
+                <tr><b>You have Selected: </b></tr>
+                <tr><b style="color: green">@ViewData["TournamentId"]</b></tr>
+                <tr></tr>
+                <thead>
+                    <tr>
+                        <td><b>Last Name</b></td>
+                        <td><b>First Name</b></td>
+                        <td><b>Position</b></td>
+                        <td><b>Total</b></td>
+                        <td><b>R1</b></td>
+                        <td><b>R2</b></td>
+                        <td><b>R3</b></td>
+                        <td><b>R4</b></td>
+                    </tr>
+                </thead>
+                <tr></tr>
+                <tbody>
+                    @foreach (var player in Model)
+                    {
+                        <tr>
+                            <td>@player.LastName</td>
+                            <td>@player.FirstName</td>
+                            <td>@player.Position</td>
+                            <td>@player.TotalScore</td>
+                            <td>@player.RoundOneScore</td>
+                            <td>@player.RoundTwoScore</td>
+                            <td>@player.RoundThreeScore</td>
+                            <td>@player.RoundFourScore</td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    }
+</body>
+
+<script type="text/javascript">
+
+    //function GetTornamentData() {
+
+    //    $.ajax({
+    //        // 2013, Frys.com Open, CordeValle Golf Club
+    //        // tournamentId: 8d463c8b-e259-482d-8729-3c9efa877a22
+    //        // apiKey = zyrf5exkkpj8r89qqrcdckgy
+    //        // year = 2013
+    //        url: '/Leaderboard/Position',
+    //        type: "GET",
+    //        //taType: 'xml',
+    //        dataType: 'application/json; charset=utf-8',
+    //        success: function(data) {
+    //            for (var i = 0; i < data.d.length; i++) {
+    //                $("#tbDetails").append("<tr><td>" + data.d[i].LastName +
+    //                    "</td><td>" + data.d[i].FirstName + "</td><td></tr>");
+    //                //+ data.d[i].Position + "</td>");
+    //            }
+
+    //            //$('#results').html(data);;
+    //            //$('#tbPosition').dataTable({
+    //            //    "fnServerData": function
+    //            //    //url: '/Leaderboard/GetTournamentPositions'
+    //            //});
+    //        }
+    //    });
+    //};
+
+
+
+
+    $(function () {
+        //var btnGetData = $('#btnGetData');
+        //btnGetData.click(GetTornamentData);
+        //GetTornamentData();
+    });
+
+</script>

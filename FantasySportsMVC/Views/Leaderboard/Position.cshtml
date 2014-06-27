@@ -1,0 +1,96 @@
+﻿@using FantasySportsMVC.Models
+@model IEnumerable<FantasySportsMVC.Models.PlayerDetails>
+
+@{
+    ViewBag.Title = "Position";
+}
+
+<h2>Position</h2>
+<br />
+<br />
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div>
+            @Html.DropDownList("ddlYear", (IEnumerable<SelectListItem>) ViewBag.Years, new {id = "ddlYear", name = "Year"})
+            
+        </div>
+        
+        <div>
+            @Html.DropDownList("ddlTournaments", (IEnumerable<SelectListItem>) ViewBag.Tournaments, new {id = "ddlTournament", name = "ddlTournament"})
+            
+        </div>
+        <div id="divSubmit">
+            <input type="submit" id="btnSubmit" value="Hit it!" />
+        </div>
+        <br/>
+        <br/>
+        <table id="tbDetails">
+            @if (Model != null)
+            {
+                <thead>
+                    <tr></tr>
+                    <tr><b>You have Selected: </b></tr>
+                    <tr><b style="color: green">@ViewData["Year"] - @ViewData["TournamentId"]</b></tr>
+                    <tr></tr>
+                    <tr>
+                        <td><b>Last Name</b></td>
+                        <td><b>First Name</b></td>
+                        <td><b>Position</b></td>
+                        <td><b>Final Score</b></td>
+                        @*<td><b>Money Earned</b></td>*@
+                    </tr>
+                </thead>
+                <tr></tr>
+                <tbody>
+                    @foreach (var player in Model)
+                    {
+                        <tr>
+                            <td>@player.LastName</td>
+                            <td>@player.FirstName</td>
+                            <td>@player.Position</td>
+                            <td>@player.TotalScore</td>
+                            @*<td>@player.MoneyEarned</td>*@
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    }
+</body>
+
+<script type="text/javascript">
+
+    $(function() {
+        
+            //$("#ddlTournament option:selected").val().change(
+            //function () {
+            //    //var selectedOption = $("#ddlTournament option:selected").val();
+            //    var submitButton = $("#divSubmit");
+
+            //    if ($("#ddlTournament option:selected").val() == "") {
+            //        submitButton.hide();
+            //    } else {
+            //        submitButton.show();
+            //    }
+            //}
+            //);
+        //ToggleSubmit();
+
+        @*$("#btnSubmit").click(function (e) {
+            e.preventDefault();
+            //now make a hidden field here and put the text of selected option in that 
+            var selectedOption = $("#ddlTournament option:selected").text();
+            $("<input/>", { type: 'hidden', name: 'TournamentName' }).val(selectedOption).appendTo("form");
+            // now post the form 
+            $.post('@Url.Action("Position", "Leaderboard")', $("form").serialize(), function (r) {
+                // inject response in confirmation step
+                //$(".wizard-step:visible")
+                $("#confirmdiv").html(r);
+            });
+        });*@
+    });
+</script>
